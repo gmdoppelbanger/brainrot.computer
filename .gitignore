@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Large video files (too big for GitHub)
+minecraft parkour gameplay.mp4
+gameplay3.mp4
+brainrot-videos/gameplay3.mp4
+brainrot-videos/gameplay3 hfkdshfkhsfhsdghdshgdkshgkshdgkjhghs fdhsfhskfhskhf dfhskdhfjsd.mp4
+
+# Large media files
+*.psd
+
+# macOS system files
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Editor folders
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

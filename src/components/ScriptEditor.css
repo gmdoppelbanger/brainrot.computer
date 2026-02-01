@@ -1,0 +1,199 @@
+.script-editor {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dialogue-count {
+  padding: 6px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.dialogues-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.dialogue-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.dialogue-row:hover {
+  border-color: #3a3a3a;
+}
+
+.dialogue-row.stewie {
+  border-left: 3px solid var(--stewie-color);
+}
+
+.dialogue-row.peter {
+  border-left: 3px solid var(--peter-color);
+}
+
+.dialogue-number {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.speaker-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.speaker-toggle:hover {
+  transform: scale(1.02);
+}
+
+.speaker-toggle.stewie {
+  border-color: var(--stewie-color);
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.speaker-toggle.peter {
+  border-color: var(--peter-color);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.speaker-avatar {
+  font-size: 24px;
+}
+
+.speaker-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.speaker-toggle.stewie .speaker-name {
+  color: var(--stewie-color);
+}
+
+.speaker-toggle.peter .speaker-name {
+  color: var(--peter-color);
+}
+
+.dialogue-input-container {
+  flex: 1;
+  position: relative;
+}
+
+.dialogue-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.2s;
+}
+
+.dialogue-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.dialogue-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.char-count {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.remove-btn:not(:disabled):hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.remove-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.add-dialogue-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  background: var(--bg-tertiary);
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.add-dialogue-btn:hover {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.add-dialogue-btn span {
+  font-size: 18px;
+  font-weight: 300;
+}

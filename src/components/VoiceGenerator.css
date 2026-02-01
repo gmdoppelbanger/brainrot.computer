@@ -1,0 +1,242 @@
+.voice-generator {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.error-banner,
+.warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.warning-banner {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fcd34d;
+}
+
+/* Voice Selection */
+.voice-selection {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.voice-selection h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+
+.voice-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.voice-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.voice-label-icon {
+  font-size: 18px;
+}
+
+.voice-selector.stewie label {
+  color: var(--stewie-color);
+}
+
+.voice-selector.peter label {
+  color: var(--peter-color);
+}
+
+.voice-selector select {
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.voice-selector select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+/* Generate Section */
+.generate-section {
+  margin-bottom: 24px;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.progress-container {
+  margin-top: 16px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Audio List */
+.audio-list {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.audio-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.audio-list-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.total-duration {
+  font-size: 13px;
+  color: var(--accent-green);
+  font-weight: 500;
+}
+
+.audio-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.2s;
+}
+
+.audio-item:last-child {
+  border-bottom: none;
+}
+
+.audio-item:hover {
+  background: var(--bg-secondary);
+}
+
+.audio-item.stewie {
+  border-left: 3px solid var(--stewie-color);
+}
+
+.audio-item.peter {
+  border-left: 3px solid var(--peter-color);
+}
+
+.audio-index {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.audio-speaker {
+  font-size: 20px;
+}
+
+.audio-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio-duration {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+.play-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-green);
+  border: none;
+  border-radius: 50%;
+  color: var(--bg-primary);
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.4);
+}
