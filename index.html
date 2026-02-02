@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coco Labs - Brainrot Video Generator</title>
+  <title>Coco Labs - Brainrot Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -233,6 +233,43 @@
       border-bottom: 1px solid #FFFFFF;
     }
 
+    .start-menu-item.has-submenu {
+      position: relative;
+    }
+
+    .start-menu-item.has-submenu::after {
+      content: '▶';
+      font-size: 8px;
+      margin-left: auto;
+    }
+
+    .start-menu-submenu {
+      position: absolute;
+      left: 100%;
+      top: -2px;
+      width: 180px;
+      background: #C0C0C0;
+      border: 2px solid;
+      border-color: #FFFFFF #808080 #808080 #FFFFFF;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+      display: none;
+      padding: 2px;
+      z-index: 10001;
+    }
+
+    .start-menu-item.has-submenu:hover .start-menu-submenu {
+      display: block;
+    }
+
+    .start-menu-submenu .start-menu-item {
+      padding: 6px 8px;
+    }
+
+    .start-menu-submenu .start-menu-item:hover {
+      background: #000080;
+      color: #FFFFFF;
+    }
+
     /* Secondary floating windows */
     .floating-window {
       position: absolute;
@@ -395,6 +432,32 @@
       opacity: 1;
     }
 
+    /* Tooltip for anchor tags only */
+    a[data-tooltip] {
+      position: relative;
+    }
+    a[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s;
+      z-index: 1000;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    a[data-tooltip]:hover::after {
+      opacity: 1;
+    }
+
     /* Buttons that move with right hand panel (preserving rotation) */
     .btn-play.hidden,
     .btn-pause.hidden,
@@ -470,12 +533,20 @@
       border-radius: 20px;
       z-index: 6;
       display: none;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 12px;
     }
 
     .media-loading.active {
       display: flex;
+    }
+
+    .media-loading-text {
+      color: #fff;
+      font-size: 14px;
+      font-family: 'MS Sans Serif', Tahoma, sans-serif;
     }
 
     .media-spinner {
@@ -2171,14 +2242,15 @@
     .error-banner {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 0;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 4px;
       margin-bottom: 12px;
-      background: linear-gradient(180deg, #FFCCCC 0%, #FF9999 100%);
-      border: 2px solid #CC0000;
-      color: #660000;
-      font-size: 11px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      font-size: 13px;
+      font-weight: 500;
     }
 
     @media (max-width: 900px) {
@@ -2479,9 +2551,13 @@
 <body>
   <!-- Desktop Icons -->
   <div class="desktop-icons">
-    <div class="desktop-icon" ondblclick="document.getElementById('appWindow').style.display='flex'">
-      <img src="computer-icon.png" alt="My Computer">
-      <span class="desktop-icon-label">My Computer</span>
+    <div class="desktop-icon" ondblclick="openWindow('appWindow')">
+      <img src="bvg-vids/assets/stewie-icon.svg" alt="Brainrot Generator">
+      <span class="desktop-icon-label">Brainrot Generator</span>
+    </div>
+    <div class="desktop-icon" ondblclick="openWindow('mediaPlayerWindow')">
+      <img src="bmp-vids/zombie.svg" alt="Brainrot Media Player">
+      <span class="desktop-icon-label">Brainrot Media Player</span>
     </div>
     <div class="desktop-icon" ondblclick="openWindow('myDocumentsWindow')">
       <img src="folder-icon.png" alt="My Documents">
@@ -2490,10 +2566,6 @@
     <div class="desktop-icon" ondblclick="openWindow('recycleBinWindow')">
       <img src="recycle-icon.png" alt="Recycle Bin">
       <span class="desktop-icon-label">Recycle Bin</span>
-    </div>
-    <div class="desktop-icon" ondblclick="openWindow('mediaPlayerWindow')">
-      <img src="mediaplayer-icon.png" alt="Brainrot Media Player">
-      <span class="desktop-icon-label">Brainrot Media Player</span>
     </div>
   </div>
 
@@ -2515,6 +2587,7 @@
     <!-- Loading overlay for media player -->
     <div class="media-loading" id="mediaLoading">
       <div class="media-spinner"></div>
+      <div class="media-loading-text">loading brainrot..</div>
     </div>
 
     <!-- Debug grid overlay -->
@@ -2626,9 +2699,19 @@
         <img src="folder-icon.png" alt="">
         <span>My Documents</span>
       </div>
-      <div class="start-menu-item" onclick="document.getElementById('appWindow').style.display='flex'; toggleStartMenu();">
-        <img src="computer-icon.png" alt="">
-        <span>Brainrot Generator</span>
+      <div class="start-menu-item has-submenu">
+        <img src="folder-icon.png" alt="">
+        <span>All Programs</span>
+        <div class="start-menu-submenu">
+          <div class="start-menu-item" onclick="openWindow('appWindow'); toggleStartMenu();">
+            <img src="bvg-vids/assets/stewie-icon.svg" alt="">
+            <span>Brainrot Generator</span>
+          </div>
+          <div class="start-menu-item" onclick="openWindow('mediaPlayerWindow'); toggleStartMenu();">
+            <img src="bmp-vids/zombie.svg" alt="">
+            <span>Brainrot Media Player</span>
+          </div>
+        </div>
       </div>
       <div class="start-menu-separator"></div>
       <div class="start-menu-item" onclick="openWindow('recycleBinWindow'); toggleStartMenu();">
@@ -2669,9 +2752,9 @@
     <header class="header" id="windowHeader">
       <div class="logo" onclick="window.location.reload()" style="cursor: pointer;" title="Back to start">
         <span class="logo-icon">
-          <img src="computer-icon.png" alt="" style="width: 16px; height: 16px; image-rendering: pixelated;">
+          <img src="bvg-vids/assets/stewie-icon.svg" alt="" style="width: 16px; height: 16px;">
         </span>
-        <span class="logo-text">Brainrot Video Generator</span>
+        <span class="logo-text">Brainrot Generator</span>
       </div>
       <div class="window-controls">
         <button class="win-btn" onclick="minimizeWindow('appWindow')" title="Minimize"><span>_</span></button>
@@ -2715,14 +2798,14 @@
           <textarea id="fullScriptInput" placeholder="Line 1 - Stewie says this
 Line 2 - Peter says this
 Line 3 - Stewie says this
-..." style="width: 100%; min-height: 200px; padding: 6px; border-radius: 0; border: 2px inset #ACA899; background: #FFFFFF; color: #000000; font-size: 11px; line-height: 1.4; resize: vertical; font-family: Tahoma, sans-serif;"></textarea>
+..." style="width: 100%; min-height: 200px; padding: 6px; border-radius: 0; border: 2px inset #ACA899; background: #FFFFFF; color: #000000; font-size: 11px; line-height: 1.4; resize: vertical; font-family: Tahoma, sans-serif;" oninput="document.getElementById('generateDialoguesBtn').disabled = !this.value.trim()"></textarea>
 
           <div style="display: flex; gap: 8px; margin-top: 12px; justify-content: center;">
-            <button class="btn btn-orange" onclick="parseFullScript()" style="padding: 4px 20px;">
+            <button class="btn btn-orange" id="generateDialoguesBtn" onclick="parseFullScript()" style="padding: 4px 20px;" disabled>
               &#10004; Done - Generate Dialogues
             </button>
-            <button class="btn btn-secondary" onclick="skipToManualEntry()" style="padding: 4px 16px;">
-              &#8594; Skip - Enter Manually
+            <button class="btn btn-secondary" id="skipToSavedBtn" onclick="skipToSavedVoiceSet()" style="padding: 4px 16px;" disabled>
+              &#8594; Skip - Load Saved Voice Set
             </button>
           </div>
 
@@ -2753,7 +2836,7 @@ Line 3 - Stewie says this
           </button>
 
           <div class="nav-buttons">
-            <button class="btn btn-secondary" onclick="backToLanding()"><span>←</span> Back to Paste</button>
+            <button class="btn btn-secondary" onclick="backToLanding()"><span>←</span> Back to Writing Script</button>
             <button class="btn btn-orange" id="toStep2Btn" disabled>Generate Voice <span>→</span></button>
           </div>
         </div>
@@ -2771,10 +2854,19 @@ Line 3 - Stewie says this
 
           <div id="errorBanner" class="error-banner" style="display: none;"></div>
 
+          <!-- Saved Voice Sets Section -->
+          <div class="saved-voices-section" id="savedVoicesSection" style="margin-bottom: 16px; padding: 12px; background: #ECE9D8; border: 2px solid; border-color: #FFFFFF #ACA899 #ACA899 #FFFFFF; display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label style="font-weight: 600; font-size: 13px;"><img src="bvg-vids/assets/folder.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;"> Saved Voice Sets</label>
+              <button class="btn btn-secondary" onclick="refreshSavedVoiceSets()" style="padding: 2px 8px; font-size: 11px;">↻ Refresh</button>
+            </div>
+            <div id="savedVoicesList" style="max-height: 150px; overflow-y: auto;"></div>
+          </div>
+
           <div class="api-key-section">
             <label>ElevenLabs API Key</label>
             <p style="font-size: 12px; color: #666666; margin-bottom: 8px;">
-              Get your key from <a href="https://elevenlabs.io/app/settings/api-keys" target="_blank" style="color: var(--accent-blue);">elevenlabs.io/app/settings/api-keys</a>
+              Get your key from <a href="https://try.elevenlabs.io/choose-free" target="_blank" style="color: var(--accent-blue);" data-tooltip="We earn commission from this custom link. You may go directly to: elevenlabs.io/app/settings/api-keys">try.elevenlabs.io/choose-free</a>
             </p>
             <div class="api-key-input">
               <input type="password" id="apiKeyInput" placeholder="sk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-size: 13px;">
@@ -2782,6 +2874,7 @@ Line 3 - Stewie says this
               <button class="btn btn-secondary" id="loadVoicesBtn">Load Voices</button>
             </div>
             <p id="keyDebug" style="font-size: 11px; color: #666666; margin-top: 6px;"></p>
+            <p style="font-size: 11px; color: #888888; margin-top: 8px;">Your API key is stored locally in your browser and sent directly to ElevenLabs. It is never sent to or logged by our servers.</p>
           </div>
 
           <div class="voice-selection" id="voiceSelection" style="display: none;">
@@ -2809,6 +2902,7 @@ Line 3 - Stewie says this
             <button class="btn btn-orange generate-btn" id="generateBtn" disabled>
               Generate Audio Script
             </button>
+            <p id="creditsEstimate" style="font-size: 11px; color: #666; margin-top: 6px; text-align: center;"></p>
             <div class="progress-container" id="progressContainer" style="display: none;">
               <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
               <div class="progress-text" id="progressText"></div>
@@ -2821,6 +2915,7 @@ Line 3 - Stewie says this
               <div style="display: flex; gap: 12px; align-items: center;">
                 <span class="total-duration" id="totalDuration">Total: 0s</span>
                 <button class="btn btn-secondary" onclick="downloadAllAudio()" style="padding: 4px 10px; font-size: 12px;">↓ Download All</button>
+                <button class="btn btn-secondary" onclick="promptSaveVoiceSet()" style="padding: 4px 10px; font-size: 12px;"><img src="bvg-vids/assets/floppy.svg" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 2px;"> Save Voice Set</button>
               </div>
             </div>
             <div id="audioItems"></div>
@@ -3001,7 +3096,8 @@ Line 3 - Stewie says this
       isGenerating: false,
       isPlaying: false,
       currentTime: 0,
-      dualScriptMode: false  // Toggle for separate audio/caption scripts
+      dualScriptMode: false,  // Toggle for separate audio/caption scripts
+      usingSavedVoiceSet: false  // True when loaded from saved voice set
     };
 
     const ASPECT_RATIOS = {
@@ -3009,6 +3105,168 @@ Line 3 - Stewie says this
       '16:9': { width: 1920, height: 1080 },
       '1:1': { width: 1080, height: 1080 }
     };
+
+    // ========== INDEXEDDB FOR SAVED VOICE SETS ==========
+    const DB_NAME = 'BrainrotVoiceDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'voiceSets';
+
+    function openVoiceDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+          }
+        };
+      });
+    }
+
+    async function saveVoiceSet(name) {
+      if (!state.audioData || state.audioData.length === 0) {
+        showError('No audio to save');
+        return;
+      }
+
+      // Convert blobs to base64 FIRST (before opening transaction)
+      const audioItems = await Promise.all(state.audioData.map(async (a) => {
+        const base64 = await blobToBase64(a.audioBlob);
+        return {
+          id: a.id,
+          speaker: a.speaker,
+          text: a.text,
+          audioText: a.audioText,
+          duration: a.duration,
+          originalDuration: a.originalDuration,
+          wordTimings: a.wordTimings,
+          audioBase64: base64
+        };
+      }));
+
+      const voiceSet = {
+        name,
+        createdAt: new Date().toISOString(),
+        dialogues: state.dialogues.map(d => ({ ...d })),
+        audioItems,
+        selectedVoices: { ...state.selectedVoices }
+      };
+
+      // NOW open DB and transaction (after all async work is done)
+      const db = await openVoiceDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve, reject) => {
+        const request = store.add(voiceSet);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function loadVoiceSet(id) {
+      const db = await openVoiceDB();
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve, reject) => {
+        const request = store.get(id);
+        request.onsuccess = async () => {
+          const voiceSet = request.result;
+          if (!voiceSet) {
+            reject(new Error('Voice set not found'));
+            return;
+          }
+
+          // Convert base64 back to blobs and create URLs
+          const audioData = await Promise.all(voiceSet.audioItems.map(async (a) => {
+            const blob = base64ToBlob(a.audioBase64, 'audio/mpeg');
+            const audioUrl = URL.createObjectURL(blob);
+            return {
+              id: a.id,
+              speaker: a.speaker,
+              text: a.text,
+              audioText: a.audioText,
+              duration: a.duration,
+              originalDuration: a.originalDuration,
+              wordTimings: a.wordTimings,
+              audioBlob: blob,
+              audioUrl
+            };
+          }));
+
+          resolve({ ...voiceSet, audioData });
+        };
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function getAllVoiceSets() {
+      const db = await openVoiceDB();
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve, reject) => {
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function deleteVoiceSet(id) {
+      const db = await openVoiceDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve, reject) => {
+        const request = store.delete(id);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function updateVoiceSetName(id, newName) {
+      const db = await openVoiceDB();
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+
+      return new Promise((resolve, reject) => {
+        const getRequest = store.get(id);
+        getRequest.onsuccess = () => {
+          const voiceSet = getRequest.result;
+          if (!voiceSet) {
+            reject(new Error('Voice set not found'));
+            return;
+          }
+          voiceSet.name = newName;
+          const putRequest = store.put(voiceSet);
+          putRequest.onsuccess = () => resolve();
+          putRequest.onerror = () => reject(putRequest.error);
+        };
+        getRequest.onerror = () => reject(getRequest.error);
+      });
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    function base64ToBlob(base64, mimeType) {
+      const byteString = atob(base64.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeType });
+    }
 
     // ========== CHARACTER IMAGES & BACKGROUND VIDEO ==========
     const characterImages = {
@@ -3198,6 +3456,7 @@ Line 3 - Stewie says this
         return d.text?.trim();
       });
       $('#toStep2Btn').disabled = !hasContent;
+      updateCreditsEstimate();
     }
 
     function toggleSpeaker(id) {
@@ -3227,6 +3486,24 @@ Line 3 - Stewie says this
           return d.text?.trim();
         });
         $('#toStep2Btn').disabled = !hasContent;
+        updateCreditsEstimate();
+      }
+    }
+
+    function updateCreditsEstimate() {
+      const estimate = $('#creditsEstimate');
+      if (!estimate) return;
+
+      let totalChars = 0;
+      state.dialogues.forEach(d => {
+        const text = state.dualScriptMode ? (d.audioText || '') : (d.text || '');
+        totalChars += text.length;
+      });
+
+      if (totalChars === 0) {
+        estimate.textContent = '';
+      } else {
+        estimate.textContent = `Estimated: ~${totalChars} API credits`;
       }
     }
 
@@ -3314,13 +3591,139 @@ Line 3 - Stewie says this
       return dialogue.text || dialogue.captionText || '';
     }
 
+    // ========== SAVED VOICE SETS UI ==========
+    async function refreshSavedVoiceSets() {
+      const section = $('#savedVoicesSection');
+      const list = $('#savedVoicesList');
+      const skipBtn = $('#skipToSavedBtn');
+
+      try {
+        const voiceSets = await getAllVoiceSets();
+
+        // Enable/disable skip button based on saved voice sets
+        if (skipBtn) {
+          const noSaved = voiceSets.length === 0;
+          skipBtn.disabled = noSaved;
+          skipBtn.style.opacity = noSaved ? '0.5' : '';
+          skipBtn.style.cursor = noSaved ? 'not-allowed' : '';
+          skipBtn.title = noSaved ? 'No saved voice set' : '';
+        }
+
+        if (voiceSets.length === 0) {
+          section.style.display = 'none';
+          return;
+        }
+
+        section.style.display = 'block';
+        list.innerHTML = voiceSets.map(vs => {
+          const d = new Date(vs.createdAt);
+          const dateStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+          return `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: white; border-radius: 0px; margin-bottom: 2px; font-size: 12px;">
+            <div style="flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+              <span style="font-weight: 500;">${escapeHtml(vs.name)}</span>
+              <span style="font-size: 10px; color: #888; margin-left: 8px;">${vs.audioItems.length} clips • ${dateStr}</span>
+            </div>
+            <div style="display: flex; gap: 4px; margin-left: 8px;">
+              <button class="btn btn-secondary" onclick="loadSavedVoiceSet(${vs.id})" style="padding: 2px 8px; font-size: 11px;">Load</button>
+              <button class="btn btn-secondary" onclick="renameSavedVoiceSet(${vs.id}, '${escapeHtml(vs.name).replace(/'/g, "\\'")}')" style="padding: 2px 6px; font-size: 11px;">✎</button>
+              <button class="btn btn-secondary" onclick="deleteSavedVoiceSet(${vs.id})" style="padding: 2px 6px; font-size: 11px; color: #c00;">✕</button>
+            </div>
+          </div>
+        `}).join('');
+      } catch (err) {
+        console.error('Error loading voice sets:', err);
+        section.style.display = 'none';
+        if (skipBtn) {
+          skipBtn.disabled = true;
+          skipBtn.style.opacity = '0.5';
+          skipBtn.style.cursor = 'not-allowed';
+          skipBtn.title = 'No saved voice set';
+        }
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    async function promptSaveVoiceSet() {
+      const name = prompt('Enter a name for this voice set:', `Voice Set ${new Date().toLocaleDateString()}`);
+      if (!name) return;
+
+      try {
+        await saveVoiceSet(name);
+        alert('Voice set saved successfully!');
+        refreshSavedVoiceSets();
+      } catch (err) {
+        showError('Failed to save voice set: ' + err.message);
+      }
+    }
+
+    async function loadSavedVoiceSet(id) {
+      try {
+        const voiceSet = await loadVoiceSet(id);
+
+        // Mark as using saved voice set (disables edit/regenerate/save)
+        state.usingSavedVoiceSet = true;
+
+        // Restore dialogues
+        state.dialogues = voiceSet.dialogues;
+        renderDialogues();
+
+        // Restore audio data
+        state.audioData = voiceSet.audioData;
+        state.selectedVoices = voiceSet.selectedVoices;
+
+        // Update UI
+        renderAudioList();
+        $('#toStep3Btn').disabled = false;
+
+        alert(`Loaded "${voiceSet.name}" - ${voiceSet.audioData.length} audio clips ready!`);
+      } catch (err) {
+        showError('Failed to load voice set: ' + err.message);
+      }
+    }
+
+    async function deleteSavedVoiceSet(id) {
+      if (!confirm('Delete this saved voice set?')) return;
+
+      try {
+        await deleteVoiceSet(id);
+        refreshSavedVoiceSets();
+      } catch (err) {
+        showError('Failed to delete: ' + err.message);
+      }
+    }
+
+    async function renameSavedVoiceSet(id, currentName) {
+      const newName = prompt('Enter new name:', currentName);
+      if (!newName || newName === currentName) return;
+
+      try {
+        await updateVoiceSetName(id, newName);
+        refreshSavedVoiceSets();
+      } catch (err) {
+        showError('Failed to rename: ' + err.message);
+      }
+    }
+
+    function skipToSavedVoiceSet() {
+      // Enable step 2 and go there
+      const step2Btn = document.querySelector('.step-btn[data-step="2"]');
+      if (step2Btn) step2Btn.disabled = false;
+      goToStep(2);
+    }
+
     // ========== ELEVENLABS INTEGRATION ==========
     function toggleApiKeyVisibility() {
       const input = $('#apiKeyInput');
       const btn = $('#toggleKeyVisibility');
       if (input.type === 'password') {
         input.type = 'text';
-        btn.textContent = '🔒';
+        btn.textContent = 'Hide';
       } else {
         input.type = 'password';
         btn.textContent = 'Show';
@@ -3549,6 +3952,7 @@ Line 3 - Stewie says this
 
       state.isGenerating = true;
       state.audioData = [];
+      state.usingSavedVoiceSet = false;  // Reset flag when generating new audio
       $('#generateBtn').innerHTML = '<span class="spinner"></span> Generating...';
       $('#generateBtn').disabled = true;
       $('#progressContainer').style.display = 'block';
@@ -3619,7 +4023,16 @@ Line 3 - Stewie says this
           })
         });
 
-        if (!res.ok) throw new Error('Voice generation failed');
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error('ElevenLabs error:', res.status, errText);
+          let errMsg = 'Voice generation failed';
+          try {
+            const errData = JSON.parse(errText);
+            errMsg = errData.detail?.message || errData.detail || errData.message || `Error ${res.status}`;
+          } catch { errMsg = `Error ${res.status}: ${errText.substring(0, 100)}`; }
+          throw new Error(errMsg);
+        }
 
         const audioBlob = await res.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
@@ -3705,16 +4118,28 @@ Line 3 - Stewie says this
         return;
       }
 
+      const isSaved = state.usingSavedVoiceSet;
+
       $('#audioList').style.display = 'block';
       $('#totalDuration').textContent = `Total: ${getTotalDuration().toFixed(1)}s`;
+
+      // Disable save button with tooltip when using saved voice set
+      const saveBtn = document.querySelector('[onclick="promptSaveVoiceSet()"]');
+      if (saveBtn) {
+        saveBtn.disabled = isSaved;
+        saveBtn.style.opacity = isSaved ? '0.5' : '';
+        saveBtn.style.cursor = isSaved ? 'not-allowed' : '';
+        saveBtn.title = isSaved ? 'Already saved' : '';
+      }
+
       $('#audioItems').innerHTML = state.audioData.map((a, i) => `
         <div class="audio-item ${a.speaker}">
           <div class="audio-index">${i + 1}</div>
           <div class="audio-speaker">${a.speaker === 'stewie' ? 'S' : 'P'}</div>
-          <input type="text" class="audio-text-input" id="audioText-${a.id}" value="${(a.audioText || a.text).replace(/"/g, '&quot;')}" onchange="updateAudioText('${a.id}', this.value)" />
+          <input type="text" class="audio-text-input" id="audioText-${a.id}" value="${(a.audioText || a.text).replace(/"/g, '&quot;')}" onchange="updateAudioText('${a.id}', this.value)" ${isSaved ? 'disabled' : ''} />
           <div class="audio-duration" id="duration-${a.id}">${a.duration?.toFixed(1)}s</div>
           <button class="play-btn" onclick="playAudio('${a.id}')" title="Play">▶</button>
-          <button class="play-btn" onclick="regenerateAudio('${a.id}', this)" title="Regenerate">↻</button>
+          <button class="play-btn" onclick="regenerateAudio('${a.id}', this)" title="Regenerate" ${isSaved ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>↻</button>
           <button class="play-btn" onclick="downloadAudio('${a.id}', ${i + 1}, '${a.speaker}', this)" title="Download">↓</button>
           <audio id="audio-${a.id}" src="${a.audioUrl}"></audio>
         </div>
@@ -5399,19 +5824,19 @@ Line 3 - Stewie says this
 
     // ========== UI HELPERS ==========
     function showError(msg) {
-      $('#errorBanner').textContent = '! ' + msg;
+      $('#errorBanner').textContent = '⚠ ' + msg;
       $('#errorBanner').style.display = 'flex';
-      $('#errorBanner').style.background = 'rgba(239, 68, 68, 0.1)';
-      $('#errorBanner').style.borderColor = 'rgba(239, 68, 68, 0.3)';
-      $('#errorBanner').style.color = '#fca5a5';
+      $('#errorBanner').style.background = '#FEF2F2';
+      $('#errorBanner').style.borderColor = '#FECACA';
+      $('#errorBanner').style.color = '#B91C1C';
     }
 
     function showInfo(msg) {
-      $('#errorBanner').textContent = msg;
+      $('#errorBanner').textContent = 'ℹ ' + msg;
       $('#errorBanner').style.display = 'flex';
-      $('#errorBanner').style.background = 'rgba(96, 165, 250, 0.1)';
-      $('#errorBanner').style.borderColor = 'rgba(96, 165, 250, 0.3)';
-      $('#errorBanner').style.color = '#93c5fd';
+      $('#errorBanner').style.background = '#EFF6FF';
+      $('#errorBanner').style.borderColor = '#BFDBFE';
+      $('#errorBanner').style.color = '#1D4ED8';
     }
 
     function hideError() {
@@ -5419,8 +5844,18 @@ Line 3 - Stewie says this
     }
 
     function updateProgress(percent, text) {
-      $('#progressFill').style.width = `${percent}%`;
+      const progressFill = $('#progressFill');
+      progressFill.style.width = `${percent}%`;
       $('#progressText').textContent = text;
+
+      // Stop animation when complete
+      if (percent >= 100) {
+        progressFill.style.animation = 'none';
+        progressFill.style.background = '#00AA00';
+      } else {
+        progressFill.style.animation = '';
+        progressFill.style.background = '';
+      }
     }
 
     function updateExportProgress(percent, text) {
@@ -5583,8 +6018,8 @@ Line 3 - Stewie says this
     const windowInfo = {
       'myDocumentsWindow': { title: 'My Documents', icon: 'folder-icon.png' },
       'recycleBinWindow': { title: 'Recycle Bin', icon: 'recycle-icon.png' },
-      'appWindow': { title: 'Brainrot Video Generator', icon: 'computer-icon.png' },
-      'mediaPlayerWindow': { title: 'Brainrot Media Player', icon: 'mediaplayer-icon.png' }
+      'appWindow': { title: 'Brainrot Generator', icon: 'bvg-vids/assets/stewie-icon.svg' },
+      'mediaPlayerWindow': { title: 'Brainrot Media Player', icon: 'bmp-vids/zombie.svg' }
     };
 
     function openWindow(windowId) {
@@ -5614,10 +6049,21 @@ Line 3 - Stewie says this
       addTaskbarButton(windowId);
       updateTaskbarButtons(windowId);
 
-      // Start video when media player is opened
+      // Start video when media player is opened (with 2 sec loading delay)
       if (windowId === 'mediaPlayerWindow') {
         const video = document.getElementById('mediaVideo');
-        if (video) video.play().catch(() => {});
+        const loading = document.getElementById('mediaLoading');
+        window.bmpInitialLoading = true;
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+        if (loading) loading.classList.add('active');
+        setTimeout(() => {
+          window.bmpInitialLoading = false;
+          if (loading) loading.classList.remove('active');
+          if (video) video.play().catch(() => {});
+        }, 2000);
       }
     }
 
@@ -6152,13 +6598,21 @@ Line 3 - Stewie says this
         mediaVideo.addEventListener('ended', playNext);
         updateFilenameDisplay(); // Initial update
 
-        // Loading animation for buffering
+        // Loading animation for buffering (respect initial 2-sec loading)
         const mediaLoading = document.getElementById('mediaLoading');
         if (mediaLoading) {
-          mediaVideo.addEventListener('waiting', () => mediaLoading.classList.add('active'));
-          mediaVideo.addEventListener('playing', () => mediaLoading.classList.remove('active'));
-          mediaVideo.addEventListener('canplay', () => mediaLoading.classList.remove('active'));
-          mediaVideo.addEventListener('loadeddata', () => mediaLoading.classList.remove('active'));
+          mediaVideo.addEventListener('waiting', () => {
+            if (!window.bmpInitialLoading) mediaLoading.classList.add('active');
+          });
+          mediaVideo.addEventListener('playing', () => {
+            if (!window.bmpInitialLoading) mediaLoading.classList.remove('active');
+          });
+          mediaVideo.addEventListener('canplay', () => {
+            if (!window.bmpInitialLoading) mediaLoading.classList.remove('active');
+          });
+          mediaVideo.addEventListener('loadeddata', () => {
+            if (!window.bmpInitialLoading) mediaLoading.classList.remove('active');
+          });
         }
       }
 
@@ -6230,6 +6684,9 @@ Line 3 - Stewie says this
       // Load saved API key
       const savedKey = localStorage.getItem('elevenlabs_api_key');
       if (savedKey) $('#apiKeyInput').value = savedKey;
+
+      // Load saved voice sets
+      refreshSavedVoiceSets();
 
       // Step navigation
       $$('.step-btn').forEach(btn => {
