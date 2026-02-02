@@ -74,8 +74,8 @@ const server = http.createServer((req, res) => {
         }
 
         if (filename && audioData && audioData.length > 0) {
-          const samplesDir = path.join(__dirname, 'samples');
-          if (!fs.existsSync(samplesDir)) fs.mkdirSync(samplesDir);
+          const samplesDir = path.join(__dirname, 'public', 'samples');
+          if (!fs.existsSync(samplesDir)) fs.mkdirSync(samplesDir, { recursive: true });
           fs.writeFileSync(path.join(samplesDir, filename), audioData);
           console.log(`Saved sample: ${filename} (${audioData.length} bytes)`);
           res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -95,7 +95,16 @@ const server = http.createServer((req, res) => {
 
   // Decode URL-encoded characters (spaces, etc.)
   const decodedUrl = decodeURIComponent(req.url);
-  let filePath = path.join(__dirname, decodedUrl === '/' ? 'index.html' : decodedUrl);
+  // Serve index.html from root, other files from public/ folder
+  let filePath;
+  if (decodedUrl === '/') {
+    filePath = path.join(__dirname, 'index.html');
+  } else {
+    // Try public folder first, then root
+    const publicPath = path.join(__dirname, 'public', decodedUrl);
+    const rootPath = path.join(__dirname, decodedUrl);
+    filePath = fs.existsSync(publicPath) ? publicPath : rootPath;
+  }
 
   const ext = path.extname(filePath).toLowerCase();
   const contentType = mimeTypes[ext] || 'application/octet-stream';
