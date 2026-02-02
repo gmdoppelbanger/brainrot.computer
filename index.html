@@ -5039,16 +5039,19 @@ Line 3 - Stewie says this
           console.log('Using requestVideoFrameCallback:', useVideoFrameCallback);
 
           // Capture frames as data URLs (compressed, much smaller than ImageData)
+          // Enable looping so video restarts if it's shorter than the brainrot video
+          exportVideo.loop = true;
+
           if (useVideoFrameCallback) {
             console.log('Using requestVideoFrameCallback for precise frame capture');
 
             await new Promise(resolve => {
               let framesCaptured = 0;
-              const endTime = videoDuration; // Start from 0
 
               const captureFrame = (now, metadata) => {
-                if (exportVideo.currentTime >= endTime || framesCaptured >= totalFrames) {
+                if (framesCaptured >= totalFrames) {
                   exportVideo.pause();
+                  exportVideo.loop = false;
                   resolve();
                   return;
                 }
@@ -5075,12 +5078,12 @@ Line 3 - Stewie says this
             await new Promise(resolve => {
               let framesCaptured = 0;
               const captureInterval = 1000 / EXPORT_FPS;
-              const endTime = videoDuration; // Start from 0
 
               const intervalId = setInterval(() => {
-                if (exportVideo.currentTime >= endTime || framesCaptured >= totalFrames || exportVideo.paused) {
+                if (framesCaptured >= totalFrames) {
                   clearInterval(intervalId);
                   exportVideo.pause();
+                  exportVideo.loop = false;
                   resolve();
                   return;
                 }
