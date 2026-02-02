@@ -4030,8 +4030,10 @@ Line 3 - Stewie says this
       // Update UI only for preview
       if (isPreview) {
         const total = getTotalDuration();
-        $('#timeDisplay').textContent = `${formatTime(time)} / ${formatTime(total)}`;
-        $('#previewProgressFill').style.width = `${(time / total) * 100}%`;
+        const timeDisplay = $('#timeDisplay');
+        const progressFill = $('#previewProgressFill');
+        if (timeDisplay) timeDisplay.textContent = `${formatTime(time)} / ${formatTime(total)}`;
+        if (progressFill) progressFill.style.width = `${(time / total) * 100}%`;
       }
     }
 
@@ -5063,6 +5065,9 @@ Line 3 - Stewie says this
           }
 
           console.log(`Captured ${videoFrameBlobs.length} video frames as compressed data URLs`);
+          console.log('First frame exists:', !!videoFrameBlobs[0], 'Last frame exists:', !!videoFrameBlobs[videoFrameBlobs.length - 1]);
+        } else {
+          console.warn('VIDEO NOT READY for frame capture - videoReady:', videoReady, 'videoWidth:', exportVideo?.videoWidth);
         }
 
         // === FRAME-BY-FRAME RENDERING ===
