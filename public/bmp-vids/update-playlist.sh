@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 echo "[" > playlist.json
 first=true
 shopt -s nullglob
-for f in *.mp4 *.webm *.mkv *.avi *.mov; do
+for f in *.mp4 *.MP4 *.webm *.mkv *.avi *.mov *.MOV; do
   if [ "$first" = true ]; then
     first=false
   else
