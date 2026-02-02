@@ -2448,19 +2448,19 @@
   <!-- Desktop Icons -->
   <div class="desktop-icons">
     <div class="desktop-icon" ondblclick="document.getElementById('appWindow').style.display='flex'">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR4nO2W3RHCIAzHU88ZnCcdQifAPTJIJtANfErXcQl80GqPEj5aoA/2/9I7ApdfSUgC8O/qYhsQ0ZZyJiIzn8eUg0RUBAARZ2tJAO/Dz1XORU7e9WQAAABjzqqN+Z5HtASAeZGPcgAAy/4yCmCM9WY6cxd9JWt10AzM19q+AWASghrxzQKoEd9MgItjMk0A1Bxopc0BJiG4OaZHWwC3Vrt9Q6vlxQBC8nWxZgAi4q2GRBScE4goqYp+AXLbbalbyWxGvwkpNqSM+7QbHPUxGuU6eXZYRLJGNESs3tDqyFbUdNAN5sAwDCAigIjFvq42L8Vqglhrbd/31RzHXseuXc30AmqGtsnDGGTAAAAAAElFTkSuQmCC" alt="My Computer">
+      <img src="computer-icon.png" alt="My Computer">
       <span class="desktop-icon-label">My Computer</span>
     </div>
     <div class="desktop-icon" ondblclick="openWindow('myDocumentsWindow')">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="My Documents">
+      <img src="folder-icon.png" alt="My Documents">
       <span class="desktop-icon-label">My Documents</span>
     </div>
     <div class="desktop-icon" ondblclick="openWindow('recycleBinWindow')">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA6ElEQVR4nO2WXQ6EIAyE62YPNjdzjlZP1n3RVYjy063JGv1eBIx0oENR5OHuDJ6PABiAZExVRVW753t7BMwikv44jjIMrvXsY4EAsKM4xR2YpiluRQe8To9QobgDJE8X0O0aM7Oj1JDsPgldKSCZmElVk/f5yQgXIFI3ZsnxIQKiua4AQHfbpwkws29ul4Dk2l7H2OUD112givmpifPzU9HCdT0QRVMK8uqXmm5tL5WbpJC0lqro2oHFA+TWD/BM5U/BNqA3+E8CoqgKKN1+JVrrwf/vwJa80NT6LVSPSe/1muP5VX+4Fx/sZrElKSIHFQAAAABJRU5ErkJggg==" alt="Recycle Bin">
+      <img src="recycle-icon.png" alt="Recycle Bin">
       <span class="desktop-icon-label">Recycle Bin</span>
     </div>
     <div class="desktop-icon" ondblclick="openWindow('mediaPlayerWindow')">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABZElEQVR4nOWXvW3DMBBGPwYZQQE8gAHTQHo1HkGFMoNHiMdQNkhmiAuPoEZ1ApgGMoABawemukDin8gTbQTJVTYs33t3FE8U8N9DXCmvjuXd3wjsjbvMAsmRUyC5eoC5BIdNYcGqtuekShMgcLla2D9eUyAIBvDw9smCRwkcNoU2wcV6CQAQuz0bHCVgwovXj+7ny8tTOZuOwCAawkdgM4EQXpHL9tFcnpmDaFj183sXggO0VOH7wykwqn69dLZ7Cu7LW7X9qAvsQaSbmvvXUVgCVvUZo1wtrCHG7oDY7SGlhJRylhRrFBOcgj4rpaxraan645cz1596Gt5OQDe11W6lFGtnsE9EuqlHzwKCp0o4R3HurUg3YHc6I9sgyhVOgartRXc6A/Bvn9gIVe8V8CXhwkPhFRh2gSMxvN5XPRDxYhI6EU2Bp+BRAiQB+M+ErqDuheDRAikisWCWgCniiljwr4lvfwOXiqxH2kwAAAAASUVORK5CYII=" alt="Brainrot Media Player">
+      <img src="mediaplayer-icon.png" alt="Brainrot Media Player">
       <span class="desktop-icon-label">Brainrot Media Player</span>
     </div>
   </div>
@@ -2469,10 +2469,10 @@
   <div class="shaped-window" id="mediaPlayerWindow" onmousedown="startDragWindow(event, 'mediaPlayerWindow')">
     <!-- Layered PNGs (main at bottom, frame on top - panel is now sliding) -->
     <div class="layer-container">
-      <img src="/assets/bmp4.main-D4yhRuTv.png" class="layer layer-main" id="layerMain" draggable="false">
-      <img src="/assets/bmp4.toggleback-C7pL9DqL.png" class="layer layer-toggleback" id="layerToggleback" draggable="false">
-      <img src="/assets/bmp4.right%20hand-Bz6z3dIZ.png" class="layer layer-righthand" id="layerRightHand" draggable="false">
-      <img src="/assets/bmp4.frame-CTPqztBr.png" class="layer layer-frame" id="layerFrame" draggable="false">
+      <img src="bmp4.main.png" class="layer layer-main" id="layerMain" draggable="false">
+      <img src="bmp4.toggleback.png" class="layer layer-toggleback" id="layerToggleback" draggable="false">
+      <img src="bmp4.right hand.png" class="layer layer-righthand" id="layerRightHand" draggable="false">
+      <img src="bmp4.frame.png" class="layer layer-frame" id="layerFrame" draggable="false">
     </div>
 
     <!-- Video player screen -->
@@ -2499,7 +2499,7 @@
 
     <!-- Sliding panel (uses bmp4.panel.png) -->
     <div class="slide-panel" id="slidePanel">
-      <img src="/assets/bmp4.panel-CkC6OTHV.png" class="slide-panel-img" draggable="false">
+      <img src="bmp4.panel.png" class="slide-panel-img" draggable="false">
       <div class="panel-filename-wrapper">
         <span class="panel-filename" id="panelFilename">Now Playing: gameplay1.mp4</span>
       </div>
@@ -2520,7 +2520,7 @@
   <div class="floating-window" id="myDocumentsWindow" style="width: 400px; height: 320px;">
     <div class="window-titlebar" onmousedown="startDragWindow(event, 'myDocumentsWindow')">
       <div class="window-title">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="">
+        <img src="folder-icon.png" alt="">
         <span>My Documents</span>
       </div>
       <div class="window-controls">
@@ -2535,22 +2535,22 @@
       <button class="nav-btn" title="Up">&#9650;</button>
       <div class="address-bar">
         <span class="address-bar-label">Address</span>
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" class="address-bar-icon" alt="">
+        <img src="folder-icon.png" class="address-bar-icon" alt="">
         <input type="text" class="address-bar-input" value="C:\My Documents" readonly>
       </div>
     </div>
     <div class="window-content">
       <div class="folder-grid">
         <div class="folder-item">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="Folder">
+          <img src="folder-icon.png" alt="Folder">
           <span>My Influences</span>
         </div>
         <div class="folder-item">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="Folder">
+          <img src="folder-icon.png" alt="Folder">
           <span>My Pictures</span>
         </div>
         <div class="folder-item">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="Folder">
+          <img src="folder-icon.png" alt="Folder">
           <span>My Videos</span>
         </div>
       </div>
@@ -2562,7 +2562,7 @@
   <div class="floating-window" id="recycleBinWindow" style="width: 350px; height: 280px;">
     <div class="window-titlebar" onmousedown="startDragWindow(event, 'recycleBinWindow')">
       <div class="window-title">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA6ElEQVR4nO2WXQ6EIAyE62YPNjdzjlZP1n3RVYjy063JGv1eBIx0oENR5OHuDJ6PABiAZExVRVW753t7BMwikv44jjIMrvXsY4EAsKM4xR2YpiluRQe8To9QobgDJE8X0O0aM7Oj1JDsPgldKSCZmElVk/f5yQgXIFI3ZsnxIQKiua4AQHfbpwkws29ul4Dk2l7H2OUD112givmpifPzU9HCdT0QRVMK8uqXmm5tL5WbpJC0lqro2oHFA+TWD/BM5U/BNqA3+E8CoqgKKN1+JVrrwf/vwJa80NT6LVSPSe/1muP5VX+4Fx/sZrElKSIHFQAAAABJRU5ErkJggg==" alt="">
+        <img src="recycle-icon.png" alt="">
         <span>Recycle Bin</span>
       </div>
       <div class="window-controls">
@@ -2586,21 +2586,21 @@
     </div>
     <div class="start-menu-items">
       <div class="start-menu-item" onclick="openWindow('myDocumentsWindow'); toggleStartMenu();">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAi0lEQVR4nO2WUQqAIBBEx/BGdqeu4TXyTHWm7ctFg8BM1j7mfQgR2zw0ZABCJuNuz9I5N0RAjr1taN3GSfgcDgAhvJpt3a0nnC4ARCR+/F47Z4q6i75+YyeRWcwT/yZQH0GINqnFUfMfoAAFKECB6QLVVZySTWhZfLSQtNaxUeRCogK28cqwcktINxfLtBbLbL6+OAAAAABJRU5ErkJggg==" alt="">
+        <img src="folder-icon.png" alt="">
         <span>My Documents</span>
       </div>
       <div class="start-menu-item" onclick="document.getElementById('appWindow').style.display='flex'; toggleStartMenu();">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR4nO2W3RHCIAzHU88ZnCcdQifAPTJIJtANfErXcQl80GqPEj5aoA/2/9I7ApdfSUgC8O/qYhsQ0ZZyJiIzn8eUg0RUBAARZ2tJAO/Dz1XORU7e9WQAAABjzqqN+Z5HtASAeZGPcgAAy/4yCmCM9WY6cxd9JWt10AzM19q+AWASghrxzQKoEd9MgItjMk0A1Bxopc0BJiG4OaZHWwC3Vrt9Q6vlxQBC8nWxZgAi4q2GRBScE4goqYp+AXLbbalbyWxGvwkpNqSM+7QbHPUxGuU6eXZYRLJGNESs3tDqyFbUdNAN5sAwDCAigIjFvq42L8Vqglhrbd/31RzHXseuXc30AmqGtsnDGGTAAAAAAElFTkSuQmCC" alt="">
+        <img src="computer-icon.png" alt="">
         <span>Brainrot Generator</span>
       </div>
       <div class="start-menu-separator"></div>
       <div class="start-menu-item" onclick="openWindow('recycleBinWindow'); toggleStartMenu();">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA6ElEQVR4nO2WXQ6EIAyE62YPNjdzjlZP1n3RVYjy063JGv1eBIx0oENR5OHuDJ6PABiAZExVRVW753t7BMwikv44jjIMrvXsY4EAsKM4xR2YpiluRQe8To9QobgDJE8X0O0aM7Oj1JDsPgldKSCZmElVk/f5yQgXIFI3ZsnxIQKiua4AQHfbpwkws29ul4Dk2l7H2OUD112givmpifPzU9HCdT0QRVMK8uqXmm5tL5WbpJC0lqro2oHFA+TWD/BM5U/BNqA3+E8CoqgKKN1+JVrrwf/vwJa80NT6LVSPSe/1muP5VX+4Fx/sZrElKSIHFQAAAABJRU5ErkJggg==" alt="">
+        <img src="recycle-icon.png" alt="">
         <span>Recycle Bin</span>
       </div>
       <div class="start-menu-separator"></div>
       <div class="start-menu-item" onclick="alert('Shutting down...'); toggleStartMenu();">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR4nO2W3RHCIAzHU88ZnCcdQifAPTJIJtANfErXcQl80GqPEj5aoA/2/9I7ApdfSUgC8O/qYhsQ0ZZyJiIzn8eUg0RUBAARZ2tJAO/Dz1XORU7e9WQAAABjzqqN+Z5HtASAeZGPcgAAy/4yCmCM9WY6cxd9JWt10AzM19q+AWASghrxzQKoEd9MgItjMk0A1Bxopc0BJiG4OaZHWwC3Vrt9Q6vlxQBC8nWxZgAi4q2GRBScE4goqYp+AXLbbalbyWxGvwkpNqSM+7QbHPUxGuU6eXZYRLJGNESs3tDqyFbUdNAN5sAwDCAigIjFvq42L8Vqglhrbd/31RzHXseuXc30AmqGtsnDGGTAAAAAAElFTkSuQmCC" alt="">
+        <img src="computer-icon.png" alt="">
         <span>Shut Down...</span>
       </div>
     </div>
@@ -2609,7 +2609,7 @@
   <!-- Taskbar -->
   <div class="taskbar">
     <button class="start-button" onclick="toggleStartMenu()">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR4nO2W3RHCIAzHU88ZnCcdQifAPTJIJtANfErXcQl80GqPEj5aoA/2/9I7ApdfSUgC8O/qYhsQ0ZZyJiIzn8eUg0RUBAARZ2tJAO/Dz1XORU7e9WQAAABjzqqN+Z5HtASAeZGPcgAAy/4yCmCM9WY6cxd9JWt10AzM19q+AWASghrxzQKoEd9MgItjMk0A1Bxopc0BJiG4OaZHWwC3Vrt9Q6vlxQBC8nWxZgAi4q2GRBScE4goqYp+AXLbbalbyWxGvwkpNqSM+7QbHPUxGuU6eXZYRLJGNESs3tDqyFbUdNAN5sAwDCAigIjFvq42L8Vqglhrbd/31RzHXseuXc30AmqGtsnDGGTAAAAAAElFTkSuQmCC" alt="">
+      <img src="computer-icon.png" alt="">
       <span>Start</span>
     </button>
     <div class="taskbar-middle"></div>
@@ -2632,7 +2632,7 @@
     <header class="header" id="windowHeader">
       <div class="logo" onclick="window.location.reload()" style="cursor: pointer;" title="Back to start">
         <span class="logo-icon">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR4nO2W3RHCIAzHU88ZnCcdQifAPTJIJtANfErXcQl80GqPEj5aoA/2/9I7ApdfSUgC8O/qYhsQ0ZZyJiIzn8eUg0RUBAARZ2tJAO/Dz1XORU7e9WQAAABjzqqN+Z5HtASAeZGPcgAAy/4yCmCM9WY6cxd9JWt10AzM19q+AWASghrxzQKoEd9MgItjMk0A1Bxopc0BJiG4OaZHWwC3Vrt9Q6vlxQBC8nWxZgAi4q2GRBScE4goqYp+AXLbbalbyWxGvwkpNqSM+7QbHPUxGuU6eXZYRLJGNESs3tDqyFbUdNAN5sAwDCAigIjFvq42L8Vqglhrbd/31RzHXseuXc30AmqGtsnDGGTAAAAAAElFTkSuQmCC" alt="" style="width: 16px; height: 16px; image-rendering: pixelated;">
+          <img src="computer-icon.png" alt="" style="width: 16px; height: 16px; image-rendering: pixelated;">
         </span>
         <span class="logo-text">Brainrot Video Generator</span>
       </div>
