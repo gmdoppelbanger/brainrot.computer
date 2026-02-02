@@ -2477,7 +2477,7 @@
 
     <!-- Video player screen -->
     <video class="media-screen" id="mediaVideo" onmousedown="event.stopPropagation()" ondblclick="event.stopPropagation()">
-      <source src="brainrot-videos/gameplay1.mp4" type="video/mp4">
+      <source src="bmp-vids/gameplay1.mp4" type="video/mp4">
     </video>
 
     <!-- Debug grid overlay -->
@@ -2982,10 +2982,10 @@ Line 3 - Stewie says this
     let backgroundVideo = null;
     let bgVideoStartTime = 0;
 
-    // Multiple gameplay videos for variety
+    // Multiple gameplay videos for variety (in public/bvg-vids/)
     const GAMEPLAY_VIDEOS = [
-      'gameplay1.mp4',
-      'gameplay2.mp4'
+      'bvg-vids/gameplay1.mp4',
+      'bvg-vids/gameplay2.mp4'
     ];
 
     function getRandomGameplayVideo() {
@@ -3008,14 +3008,12 @@ Line 3 - Stewie says this
       });
 
       characterImages.stewie = await loadImage([
-        'src/assets/Stewie.png',
-        'src/assets/stewie.png',
-        'src/assets/STEWIE.png'
+        'bvg-vids/assets/Stewie.png',
+        'bvg-vids/assets/stewie.png'
       ]);
       characterImages.peter = await loadImage([
-        'src/assets/Peter.png',
-        'src/assets/peter.png',
-        'src/assets/PETER.png'
+        'bvg-vids/assets/Peter.png',
+        'bvg-vids/assets/peter.png'
       ]);
 
       // Use the video element in the DOM for preview
@@ -5981,8 +5979,8 @@ Line 3 - Stewie says this
         mediaVideo.addEventListener('timeupdate', updateProgress);
       }
 
-      // Playlist - loaded from brainrot-videos folder
-      const videoFolder = 'brainrot-videos/';
+      // Playlist - loaded from bmp-vids folder (Brainrot Media Player videos)
+      const videoFolder = 'bmp-vids/';
       let playlist = [];
       let currentTrack = 0;
       const panelPlaylist = document.getElementById('panelPlaylist');
@@ -6064,7 +6062,7 @@ Line 3 - Stewie says this
         }
       }
 
-      // Initialize playlist from brainrot-videos folder
+      // Initialize playlist from bmp-vids folder
       loadPlaylist();
 
       // Play next track
