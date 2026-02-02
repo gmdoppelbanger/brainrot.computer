@@ -458,6 +458,32 @@
       opacity: 1;
     }
 
+    /* Script tooltip for buttons */
+    .script-tooltip {
+      position: relative;
+    }
+    .script-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s;
+      z-index: 1000;
+      margin-bottom: 4px;
+    }
+    .script-tooltip:hover::after {
+      opacity: 1;
+    }
+
     /* Buttons that move with right hand panel (preserving rotation) */
     .btn-play.hidden,
     .btn-pause.hidden,
@@ -2557,7 +2583,7 @@
     </div>
     <div class="desktop-icon" ondblclick="openWindow('mediaPlayerWindow')">
       <img src="bmp-vids/zombie.svg" alt="Brainrot Media Player">
-      <span class="desktop-icon-label">Brainrot Media Player</span>
+      <span class="desktop-icon-label">Brainrot<br>Media&nbsp;Player</span>
     </div>
     <div class="desktop-icon" ondblclick="openWindow('myDocumentsWindow')">
       <img src="folder-icon.png" alt="My Documents">
@@ -2792,7 +2818,16 @@
         <div class="section" style="max-width: 700px; margin: 0 auto;">
           <div class="section-header" style="text-align: center; display: block;">
             <h2 class="section-title" style="justify-content: center;">Paste Your Script</h2>
-            <p class="section-subtitle">Paste your full script below. Each line becomes a dialogue. Lines alternate between Stewie and Peter.</p>
+            <p class="section-subtitle">Paste your full script below. Each line break becomes a dialogue. Lines alternate between Stewie and Peter.</p>
+          </div>
+
+          <div style="text-align: right; margin-bottom: 6px; display: flex; justify-content: flex-end; gap: 6px;">
+            <button class="btn btn-secondary script-tooltip" onclick="loadSampleScript()" style="padding: 3px 10px; font-size: 10px;" data-tooltip="Load Sample Script">
+              I'm Feeling Lazy
+            </button>
+            <button class="btn btn-secondary" onclick="clearScript()" style="padding: 3px 10px; font-size: 10px;">
+              Clear
+            </button>
           </div>
 
           <textarea id="fullScriptInput" placeholder="Line 1 - Stewie says this
@@ -3527,6 +3562,29 @@ Line 3 - Stewie says this
     }
 
     // Landing page functions
+    function loadSampleScript() {
+      const sampleScript = `peter riddle me this. how does a 12 second video of someone peeling a banana get 5 million views while quality content drowns in obscurity
+because the algorithm doesnt care about quality, it cares about attention. tiktok and youtube? they're engineered to keep people watching. if your content helps do that, you get pushed
+so what exactly triggers that push
+first 3 seconds thats your hook. if people scroll, you're dead. if they stay, the platform shows it to more people. then it looks at watch time
+then how do completely random videos explode?
+because randomness breaks scrolling habits. it disrupts patterns. that little jolt of what i am watching is pure gold to the algorithm
+so this isnt luck, it's psychological warfare?
+exactly. make the brain stop, make the viewers stay. thats the whole game`;
+
+      const textarea = $('#fullScriptInput');
+      textarea.value = sampleScript;
+      // Enable the generate button
+      document.getElementById('generateDialoguesBtn').disabled = false;
+    }
+
+    function clearScript() {
+      const textarea = $('#fullScriptInput');
+      textarea.value = '';
+      // Disable the generate button
+      document.getElementById('generateDialoguesBtn').disabled = true;
+    }
+
     function parseFullScript() {
       const input = $('#fullScriptInput').value.trim();
       if (!input) {
