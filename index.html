@@ -2984,7 +2984,8 @@ Line 3 - Stewie says this
 
     // Multiple gameplay videos for variety
     const GAMEPLAY_VIDEOS = [
-      'gameplay1.mp4'
+      'gameplay1.mp4',
+      'gameplay2.mp4'
     ];
 
     function getRandomGameplayVideo() {
@@ -4906,9 +4907,10 @@ Line 3 - Stewie says this
         if (exportVideo && exportVideo.readyState >= 2 && exportVideo.videoWidth > 0) {
           updateExportProgress(7, 'Preparing background video...');
 
-          // Pause and seek to start
+          // Pause and seek to start (use 0 for reliability - random positions may not be buffered)
           exportVideo.pause();
-          exportVideo.currentTime = bgVideoStartTime;
+          const exportStartTime = 0; // Start from beginning for reliable buffering
+          exportVideo.currentTime = exportStartTime;
 
           // Wait for seek to complete with multiple fallbacks
           await new Promise(resolve => {
@@ -4923,11 +4925,52 @@ Line 3 - Stewie says this
             setTimeout(done, 800);
           });
 
+          // Wait for video to be actually ready to play with multiple strategies
+          await new Promise(resolve => {
+            const checkReady = () => exportVideo.readyState >= 2;
+
+            if (checkReady()) {
+              resolve();
+              return;
+            }
+
+            // Try playing briefly to force buffering
+            exportVideo.muted = true;
+            exportVideo.play().catch(() => {});
+
+            const onCanPlay = () => {
+              exportVideo.removeEventListener('canplaythrough', onCanPlay);
+              exportVideo.removeEventListener('canplay', onCanPlay);
+              exportVideo.pause();
+              resolve();
+            };
+
+            exportVideo.addEventListener('canplaythrough', onCanPlay);
+            exportVideo.addEventListener('canplay', onCanPlay);
+
+            // Poll as backup
+            let attempts = 0;
+            const pollInterval = setInterval(() => {
+              attempts++;
+              if (checkReady() || attempts > 30) {
+                clearInterval(pollInterval);
+                exportVideo.pause();
+                resolve();
+              }
+            }, 100);
+
+            setTimeout(() => {
+              clearInterval(pollInterval);
+              exportVideo.pause();
+              resolve();
+            }, 3000); // 3 second max wait
+          });
+
           // Extra wait for frame decode
-          await new Promise(r => setTimeout(r, 100));
+          await new Promise(r => setTimeout(r, 300));
 
           videoReady = exportVideo.readyState >= 2 && exportVideo.videoWidth > 0;
-          console.log('Export video ready:', videoReady, exportVideo.videoWidth + 'x' + exportVideo.videoHeight, 'at time:', exportVideo.currentTime);
+          console.log('Export video ready:', videoReady, 'readyState:', exportVideo.readyState, exportVideo.videoWidth + 'x' + exportVideo.videoHeight, 'at time:', exportVideo.currentTime);
         } else {
           console.warn('Background video not available for export:', exportVideo?.readyState, exportVideo?.videoWidth);
         }
@@ -4983,9 +5026,9 @@ Line 3 - Stewie says this
 
           console.log(`Capturing ${totalFrames} frames over ${videoDuration.toFixed(2)}s of video`);
 
-          // Seek to start and wait
-          console.log('Seeking to:', bgVideoStartTime, 'video duration:', exportVideo.duration, 'src:', exportVideo.src);
-          exportVideo.currentTime = bgVideoStartTime;
+          // Seek to start and wait (use 0 for reliable buffering)
+          console.log('Seeking to: 0, video duration:', exportVideo.duration, 'src:', exportVideo.src);
+          exportVideo.currentTime = 0;
           await new Promise(resolve => {
             exportVideo.onseeked = () => resolve();
             setTimeout(resolve, 500);
@@ -5001,7 +5044,7 @@ Line 3 - Stewie says this
 
             await new Promise(resolve => {
               let framesCaptured = 0;
-              const endTime = bgVideoStartTime + videoDuration;
+              const endTime = videoDuration; // Start from 0
 
               const captureFrame = (now, metadata) => {
                 if (exportVideo.currentTime >= endTime || framesCaptured >= totalFrames) {
@@ -5032,7 +5075,7 @@ Line 3 - Stewie says this
             await new Promise(resolve => {
               let framesCaptured = 0;
               const captureInterval = 1000 / EXPORT_FPS;
-              const endTime = bgVideoStartTime + videoDuration;
+              const endTime = videoDuration; // Start from 0
 
               const intervalId = setInterval(() => {
                 if (exportVideo.currentTime >= endTime || framesCaptured >= totalFrames || exportVideo.paused) {
@@ -5068,6 +5111,9 @@ Line 3 - Stewie says this
           console.log('First frame exists:', !!videoFrameBlobs[0], 'Last frame exists:', !!videoFrameBlobs[videoFrameBlobs.length - 1]);
         } else {
           console.warn('VIDEO NOT READY for frame capture - videoReady:', videoReady, 'videoWidth:', exportVideo?.videoWidth);
+          showError('Background video not ready. Please refresh the page and try again.');
+          $('#exportProgress').style.display = 'none';
+          return;
         }
 
         // === FRAME-BY-FRAME RENDERING ===
