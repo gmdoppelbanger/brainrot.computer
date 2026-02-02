@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Face -->
+  <circle cx="32" cy="34" r="28" fill="#7CB342" stroke="#000" stroke-width="1.5"/>
+  <!-- Brain -->
+  <ellipse cx="18" cy="12" rx="12" ry="8" fill="#F48FB1" stroke="#000" stroke-width="1"/>
+  <circle cx="12" cy="10" r="5" fill="#EC407A" stroke="#000" stroke-width="0.8"/>
+  <circle cx="20" cy="8" r="4" fill="#EC407A" stroke="#000" stroke-width="0.8"/>
+  <circle cx="16" cy="14" r="4" fill="#EC407A" stroke="#000" stroke-width="0.8"/>
+  <!-- Eyes -->
+  <ellipse cx="22" cy="32" rx="6" ry="7" fill="#5D4037" stroke="#000" stroke-width="1"/>
+  <ellipse cx="42" cy="32" rx="6" ry="7" fill="#5D4037" stroke="#000" stroke-width="1"/>
+  <!-- Nose -->
+  <ellipse cx="32" cy="42" rx="3" ry="2" fill="#5D4037" stroke="#000" stroke-width="0.8"/>
+  <!-- Mouth -->
+  <path d="M18 50 Q32 58 46 50 L46 54 Q32 48 18 54 Z" fill="#5D4037" stroke="#000" stroke-width="1"/>
+  <!-- Teeth -->
+  <rect x="22" y="50" width="5" height="6" fill="#E8E8E8" rx="1" stroke="#000" stroke-width="0.8"/>
+  <rect x="37" y="50" width="5" height="6" fill="#E8E8E8" rx="1" stroke="#000" stroke-width="0.8"/>
+</svg>
