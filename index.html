@@ -6127,11 +6127,19 @@ Line 3 - Stewie says this
           mediaVideo.style.width = '195px';
           mediaVideo.style.height = '295px';
           mediaVideo.style.transform = 'rotate(90deg) translate(-50px, -50px)';
+          mediaVideo.style.objectPosition = '';
+        } else if (vw && vh && vw === vh) {
+          // Square video (1080x1080) - shift visible area down by 20px
+          mediaVideo.style.width = '';
+          mediaVideo.style.height = '';
+          mediaVideo.style.transform = '';
+          mediaVideo.style.objectPosition = 'center calc(50% + 20px)';
         } else {
           // Landscape video - reset to default
           mediaVideo.style.width = '';
           mediaVideo.style.height = '';
           mediaVideo.style.transform = '';
+          mediaVideo.style.objectPosition = '';
         }
       }
 
